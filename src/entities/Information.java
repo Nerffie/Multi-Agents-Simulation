@@ -7,4 +7,8 @@ public class Information implements Entity {
 
         this.idInformation = id;
     }
+
+    public int getIdInformation() {
+        return idInformation;
+    }
 }

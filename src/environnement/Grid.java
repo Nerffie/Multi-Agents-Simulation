@@ -13,11 +13,20 @@ public class Grid {
     public Agent[] listeAgents;
     private Information[] listeInformations;
 
+
+
     public Grid(int size) {
         taille = size;
         map = new Entity[taille][taille];
     }
 
+    public Agent[] getListeAgents() {
+        return listeAgents;
+    }
+
+    public Information[] getListeInformations() {
+        return listeInformations;
+    }
     public void initialiserGrid(int nombreAgents, int nombreInformations) {
         listeAgents = new Agent[nombreAgents];
         listeInformations = new Information[nombreInformations];
@@ -27,7 +36,7 @@ public class Grid {
             x = (int) Aleatoire.getInstance().genererRandom(taille);
             y = (int) Aleatoire.getInstance().genererRandom(taille);
             if (map[x][y] == null) {
-                map[x][y] = new AgentNormal(IdGenerator.getId(),x,y);
+                map[x][y] = new AgentNormal(IdGenerator.getId(),x,y,nombreInformations);
                 listeAgents[compteur++] = (AgentNormal)map[x][y];
             }
         }

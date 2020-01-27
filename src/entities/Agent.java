@@ -3,15 +3,28 @@ package entities;
 import environnement.Grid;
 import util.Aleatoire;
 
+import java.util.ArrayList;
+
 public abstract class Agent implements Entity {
 
     protected int idAgent;
-    protected Information[] listeInformationsConnues;
+    protected ArrayList<Information> listeInformationsConnues;
     protected int x;
     protected int y;
 
-    public Information[] getInformationConnue() {
+    public int getIdAgent() {
+        return idAgent;
+    }
+
+    public ArrayList<Information> getInformationConnue() {
         return listeInformationsConnues;
+    }
+
+    public Agent(int id, int x, int y, int tailleMaxInformations) {
+        this.idAgent = id;
+        this.x = x;
+        this.y = y;
+        listeInformationsConnues = new ArrayList<Information>(tailleMaxInformations);
     }
 
     public void move(Grid grid) {
@@ -65,5 +78,37 @@ public abstract class Agent implements Entity {
             return false;
         }
         return false;
+    }
+
+    public void interactWithSurroundings(Grid grid) {
+        for (int i = -1; i < 2; i++) {
+            for (int j = -1; j < 2; j++) {
+                try {
+                    /*This if skips all empty nearby cells and skips the cell occupied by the current agent */
+                    if (grid.getCell(x + i, y + j) != null && !(i == 0 && j == 0)) {
+                        if (grid.getCell(x + i, y + j).getClass().getName().equals("entities.AgentNormal") || grid.getCell(x + i, y + j).getClass().getName().equals("entities.AgentPorteur")) {
+                            exchangeInformation((Agent) grid.getCell(x + i, y + j));
+                            System.out.println("Information has been exchanged between agent #" + idAgent + " and agent #" + ((Agent) grid.getCell(x + i, y + j)).getIdAgent() + ".");
+                        }
+                        if (grid.getCell(x + i, y + j).getClass().getName().equals("entities.Information")) {
+                            collectInformation((Information) grid.getCell(x + i, y + j));
+                            System.out.println("Agent #" + idAgent + " has collected an information #" + ((Information) grid.getCell(x + i, y + j)).getIdInformation() + ".");
+                            grid.removeCell(x + i, y + j);
+
+                        }
+                    }
+                } catch (ArrayIndexOutOfBoundsException e) {
+
+                }
+            }
+        }
+    }
+
+    public void collectInformation(Information i) {
+        listeInformationsConnues.add(i);
+    }
+
+    public void exchangeInformation(Agent a) {
+
     }
 }
