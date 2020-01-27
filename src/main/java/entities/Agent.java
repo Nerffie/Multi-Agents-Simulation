@@ -4,6 +4,9 @@ import environnement.Grid;
 import util.Aleatoire;
 
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
 
 public abstract class Agent implements Entity {
 
@@ -18,6 +21,10 @@ public abstract class Agent implements Entity {
 
     public ArrayList<Information> getInformationConnue() {
         return listeInformationsConnues;
+    }
+
+    public void setListeInformationsConnues(ArrayList<Information> liste){
+        this.listeInformationsConnues = new ArrayList<Information>(liste);
     }
 
     public Agent(int id, int x, int y, int tailleMaxInformations) {
@@ -109,6 +116,9 @@ public abstract class Agent implements Entity {
     }
 
     public void exchangeInformation(Agent a) {
-
+        Set<Information> set = new LinkedHashSet<Information>(listeInformationsConnues);
+        set.addAll(a.getInformationConnue());
+        setListeInformationsConnues(new ArrayList<Information>(set));
+        a.setListeInformationsConnues(new ArrayList<Information>(set));
     }
 }

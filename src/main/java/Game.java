@@ -5,9 +5,9 @@ import environnement.Grid;
 public class Game {
 
     public static void main(String[] args) {
-        Grid grid = new Grid(5);
+        Grid grid = new Grid(20);
 
-        grid.initialiserGrid(5, 2);
+        grid.initialiserGrid(50, 50);
 
         Agent[] agents = grid.getListeAgents();
         Information[] informations = grid.getListeInformations();
