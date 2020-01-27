@@ -1,5 +1,6 @@
 package environnement;
 
+import entities.Agent;
 import entities.AgentNormal;
 import entities.Entity;
 import entities.Information;
@@ -9,6 +10,8 @@ import util.IdGenerator;
 public class Grid {
     private Entity[][] map;
     private int taille;
+    public Agent[] listeAgents;
+    private Information[] listeInformations;
 
     public Grid(int size) {
         taille = size;
@@ -16,23 +19,25 @@ public class Grid {
     }
 
     public void initialiserGrid(int nombreAgents, int nombreInformations) {
-        int compteur = nombreAgents;
+        listeAgents = new Agent[nombreAgents];
+        listeInformations = new Information[nombreInformations];
+        int compteur = 0;
         int x, y;
-        while (nombreAgents != 0) {
+        while (compteur != nombreAgents) {
             x = (int) Aleatoire.getInstance().genererRandom(taille);
             y = (int) Aleatoire.getInstance().genererRandom(taille);
             if (map[x][y] == null) {
-                map[x][y] = new AgentNormal(IdGenerator.getId());
-                nombreAgents--;
+                map[x][y] = new AgentNormal(IdGenerator.getId(),x,y);
+                listeAgents[compteur++] = (AgentNormal)map[x][y];
             }
         }
-
-        while (nombreInformations != 0) {
+        compteur=0;
+        while (compteur != nombreInformations) {
             x = (int) Aleatoire.getInstance().genererRandom(taille);
             y = (int) Aleatoire.getInstance().genererRandom(taille);
             if (map[x][y] == null) {
                 map[x][y] = new Information(IdGenerator.getId());
-                nombreInformations--;
+                listeInformations[compteur++] = (Information)map[x][y];
             }
         }
     }
@@ -55,5 +60,16 @@ public class Grid {
             }
             System.out.println();
         }
+    }
+
+    public Entity getCell(int x,int y){
+        return map[x][y];
+    }
+
+    public void setCell(int x,int y,Entity e){
+        map[x][y] = e;
+    }
+    public void removeCell(int x,int y){
+        map[x][y]=null;
     }
 }
