@@ -2,6 +2,7 @@ package entities;
 
 import environnement.Grid;
 import util.Aleatoire;
+import util.Temps;
 
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
@@ -94,8 +95,10 @@ public abstract class Agent implements Entity {
                     /*This if skips all empty nearby cells and skips the cell occupied by the current agent */
                     if (grid.getCell(x + i, y + j) != null && !(i == 0 && j == 0)) {
                         if (grid.getCell(x + i, y + j).getClass().getName().equals("entities.AgentNormal") || grid.getCell(x + i, y + j).getClass().getName().equals("entities.AgentPorteur")) {
-                            exchangeInformation((Agent) grid.getCell(x + i, y + j));
-                            System.out.println("Information has been exchanged between agent #" + idAgent + " and agent #" + ((Agent) grid.getCell(x + i, y + j)).getIdAgent() + ".");
+                            if(exchangeInformation((Agent) grid.getCell(x + i, y + j))){
+                                System.out.println("Information has been exchanged between agent #" + idAgent + " and agent #" + ((Agent) grid.getCell(x + i, y + j)).getIdAgent() + " at ("+Temps.getGrandTour()+","+Temps.getPetitTour()+").");
+                            }
+
                         }
                         if (grid.getCell(x + i, y + j).getClass().getName().equals("entities.Information")) {
                             collectInformation((Information) grid.getCell(x + i, y + j));
@@ -115,10 +118,28 @@ public abstract class Agent implements Entity {
         listeInformationsConnues.add(i);
     }
 
-    public void exchangeInformation(Agent a) {
-        Set<Information> set = new LinkedHashSet<Information>(listeInformationsConnues);
+    public boolean exchangeInformation(Agent a) {
+        /*Set<Information> set = new LinkedHashSet<Information>(listeInformationsConnues);
         set.addAll(a.getInformationConnue());
         setListeInformationsConnues(new ArrayList<Information>(set));
-        a.setListeInformationsConnues(new ArrayList<Information>(set));
+        a.setListeInformationsConnues(new ArrayList<Information>(set));*/
+
+        boolean result = false;
+        for(Information i : listeInformationsConnues){
+            if(!a.getInformationConnue().contains(i)){
+                a.getInformationConnue().add(new Information(i.getIdInformation(), Temps.getGrandTour(),Temps.getPetitTour()));
+                result = true;
+            }
+        }
+
+        for(Information i : a.getInformationConnue()){
+            if(!listeInformationsConnues.contains(i)){
+                listeInformationsConnues.add(new Information(i.getIdInformation(),Temps.getGrandTour(),Temps.getPetitTour()));
+                result = true;
+            }
+        }
+        return result;
     }
+
+
 }

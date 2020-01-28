@@ -1,13 +1,14 @@
 import entities.Agent;
 import entities.Information;
 import environnement.Grid;
+import util.Temps;
 
 public class Game {
 
     public static void main(String[] args) {
-        Grid grid = new Grid(20);
+        Grid grid = new Grid(5);
 
-        grid.initialiserGrid(50, 50);
+        grid.initialiserGrid(8, 3);
 
         Agent[] agents = grid.getListeAgents();
         Information[] informations = grid.getListeInformations();
@@ -19,6 +20,7 @@ public class Game {
             a.move(grid);
             System.out.println("*****************");
             grid.afficherGrid();
+            Temps.incPetitTour();
         }
 
         for(Agent a : agents){
