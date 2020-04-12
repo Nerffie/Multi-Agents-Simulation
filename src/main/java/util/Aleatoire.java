@@ -1,5 +1,10 @@
 package util;
 
+/**
+ * Classe qui gère les nombres aléatoires
+ * Elle peut être utilisée pour les déplacements des agents
+ * ainsi que pour le nombre d'agent et d'informations dans la map
+ */
 public class Aleatoire {
 
     private static Aleatoire single_instance = null;
@@ -21,6 +26,11 @@ public class Aleatoire {
 
     }
 
+    /**
+     * Genere un nombre aléatoire
+     * @param borneSup la valeur maximal que peut avoir le nombre aléatoire généré
+     * @return un réel
+     */
     public double genererRandom(int borneSup) {
         return Math.random() * borneSup;
     }

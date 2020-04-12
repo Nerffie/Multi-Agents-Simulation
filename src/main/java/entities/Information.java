@@ -1,35 +1,26 @@
 package entities;
 
+/**
+ * Classe qui définit une information
+ * Cette information peut se trouver directement sur la map ou dans la liste des informations d'un agent
+ */
 public class Information implements Entity {
     private int idInformation;
-    private int[] timeOfAcquisition;
 
+    /**
+     * Constructeur de la classe Information
+     * @param id identifiant unique d'une information
+     */
     public Information(int id) {
-
         this.idInformation = id;
-        timeOfAcquisition = new int[2];
     }
 
-    public Information(int id,int grandTour,int petitTour){
-        this.idInformation = id;
-        timeOfAcquisition = new int[2];
-        timeOfAcquisition[0]=grandTour;
-        timeOfAcquisition[1]=petitTour;
-
-    }
-
+    /**
+     * Getter d'une information
+     * @return Information
+     * @see Information
+     */
     public int getIdInformation() {
-        return idInformation;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        Information inf = (Information)obj;
-        return idInformation==inf.getIdInformation();
-    }
-
-    @Override
-    public int hashCode() {
         return idInformation;
     }
 }
